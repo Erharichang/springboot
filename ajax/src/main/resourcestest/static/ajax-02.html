@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ <h1>The Ajax 02 Page</h1>
+ <fieldset>
+    <legend>Ajax 表单请求</legend>
+    <form>
+       <input type="text" id="nameId" name="name" 
+                          onblur="doCheck()" onfocus="doClear()">
+       <input type="button" onclick="doSave()" value="Save">
+    </form>
+    <span id="resultId"></span><!-- 此位置显示服务端响应结果 -->
+ </fieldset>
+ <script type="text/javascript">
+       function doClear(){
+    	   document.forms[0].name.value="";
+    	   document.getElementById("resultId").innerHTML="";
+       }
+       //检测名字是否已存在
+       function doCheck(){
+    	   //1.创建XHR对象
+    	   const xhr=new XMLHttpRequest();
+    	   //2.定义XHR对象的状态监听函数
+    	   xhr.onreadystatechange=function(){
+    		   if(xhr.readyState==4&&xhr.status==200){
+    			   document.getElementById("resultId").innerHTML=
+    			  `<font color='red'>${xhr.responseText}</font>`;
+    		   }
+    	   }
+    	   //3.建立连接
+    	   let name=document.forms[0].name.value;
+    	   xhr.open("GET",`doCheck?name=${name}`,true);
+    	   //4.发送请求
+    	   xhr.send(null);
+       }
+ 
+       //保存表单中名字的值
+       function doSave(){//debugger,log,排除法
+    	  // debugger
+    	   //1.创建XHR对象
+    	   const xhr=new XMLHttpRequest();
+    	   //2.定义XHR对象的状态监听函数
+    	   xhr.onreadystatechange=function(){
+    		   if(xhr.readyState==4&&xhr.status==200){
+    			   document.getElementById("resultId").innerHTML=xhr.responseText;
+    		   }
+    	   }
+    	   //3.建立连接(Post)
+    	   xhr.open("POST","doSave",true);
+    	   //post请求传参需要设置请求头
+    	   xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    	   //4.发送请求
+    	   let name=document.forms[0].name.value;//获取输入的name属性值
+    	   //构建参数对象
+    	   //4.1方式1
+    	   //var params="name="+name;//淘汰
+    	   //4.2方式2
+    	   //const params=`name=${name}`;//一种新的写法,这种写法称之为模板字符串,所有字符串拼接都可以以这种方式进行实现
+    	   //4.3方式3
+    	   var params={"name":name};//JavaScript中的对象(原生ajax方式不可以直接传递这样的对象)
+    	   xhr.send(params);//post请求的参数需要写到此位置
+       }
+ </script>
+</body>
+</html>
+

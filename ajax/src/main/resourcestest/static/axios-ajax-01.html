@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<button onclick="doAjaxGet()">doAjaxGet</button>
+<button onclick="doAjaxPost()">doAjaxPost</button>
+<span id="result"></span>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+  function doAjaxGet(){
+    	  axios.get('/jquery/doAjaxGet',{params:{msg:"hello axios"}})
+    	  .then( (r)=>{//服务响应状态为200时执行then函数内容
+    	    console.log(r.data);
+    	    //document.getElementById("result").innerHTML=r.data;
+    	    document.querySelector("#result").innerHTML=r.data;
+    	  })
+    	  .catch((err)=>{//服务端响应状态非200时，执行catch函数。
+    	    console.log(err);
+    	  });
+   }
+  function doAjaxPost(){
+	      axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+    	  axios.post('/jquery/doAxiosPost',{"id":100,"title":"axios"})
+    	  .then( (r)=>{//服务响应状态为200时执行then函数内容
+    	    console.log(r.data);
+    	    //document.getElementById("result").innerHTML=r.data;
+    	    document.querySelector("#result").innerHTML=r.data;
+    	  })
+    	  .catch((err)=>{//服务端响应状态非200时，执行catch函数。
+    	    console.log(err);
+    	  });
+   }
+</script>
+
+</body>
+</html>

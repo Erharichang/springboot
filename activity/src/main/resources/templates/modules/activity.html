@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insert title here</title>
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<h1>The Activity Page</h1>
+        <h2 id="timeId"></h2>
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#myModal">创建新活动</button>
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">添加活动</h4>
+					</div>
+					<div class="modal-body">
+						<form id="saveFormId" action="/activity/doSaveObject" method="post">
+							<div class="form-group">
+								<label for="titleId">title</label>
+								<input type="text"
+									class="form-control" name="title" id="titleId"
+									placeholder="please input title">
+							</div>
+							<div class="form-group">
+								<label for="categoryId">Category</label>
+								<select class="form-control" name="category" id="categoryId">
+								   <option value="training">教育培训</option>
+								   <option value="Playing">企业活动</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="startTimeId">start time</label>
+								<input type="text"
+									class="form-control" name="startTime" id="startTimeId"
+									placeholder="please input startTime">
+							</div>
+							<div class="form-group">
+								<label for="endTimeId">end time</label>
+								<input type="text"
+									class="form-control" name="endTime" id="endTimeId"
+									placeholder="please input end time">
+							</div>
+							<div class="form-group">
+								<label for="remarkId">Remark</label>
+								<textarea 
+									class="form-control" name="remark" id="remarkId"></textarea>
+							</div>
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" onclick="doSaveObject()">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>title</th>
+					<th>category</th>
+					<th>start time</th>
+					<th>end time</th>
+					<th>state</th>
+					<th>createdTime</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyId">
+				<tr>
+					<td colspan="7">数据正在积极的加载中......</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript" src="/jquery/jquery.min.js"></script>
+	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+	<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript">
+	$("#timeId").html(new Date().toLocaleString())
+	//提交form表单,执行save操作
+	function doSaveObject(){
+		//基于此方式提交表单，表单中的元素一定要有name属性，
+		//并且name属性名的设计一定要于服务端接收参数时的设计相匹配
+		//$("#saveFormId").submit();//同步提交
+		//=======================================
+	    //1.定义url
+	    let url="/activity/doSaveObject";
+	    //2.定义请求参数
+	    /*
+	    var params={
+	       title:$("#titleId").val(),//val()为jquery中或指定表单元素的value值
+	       category:$("#categoryId").val(),
+	       startTime:$("#startTimeId").val(),
+	       endTime:$("#endTimeId").val(),
+	       remark:$("#remarkId").val()
+	    }
+	    */
+	    var params=$("#saveFormId").serialize();//serialize()为jquery中直接获取表单数据方法
+	    console.log("params",params);
+	    //3.发送异步请求
+		$.ajax({
+			type:"post",
+    		url:url,
+    		data:params,
+    		success:function(result){
+    			alert(result);
+    			//隐藏模态框
+    			$('#myModal').modal('hide');
+    			//重新执行查询，局部刷新
+    			findActivitys();
+    		}
+    	});
+	    
+	}
+    //向服务端发送异步请求获取活动信息并更新到页面上
+    function findActivitys(){
+    	let url="/activity/doFindActivitys";
+    	let params={};
+    	//借助jquery中的ajax函数,向服务端发送异步请求获取活动信息
+    	$.ajax({
+    		url:url,
+    		data:params,
+    		dataType:"json",
+    		success:function(result){
+    			doHandleQueryResult(result);
+    		}
+    	});
+    };
+    //处理服务端返回的活动信息,迭代result,并将result内容填充tbody位置
+    function doHandleQueryResult(result){
+    	///debugger
+    	console.log(result)
+    	//1.获取tbody对象,并清空原有内容
+    	var tBody=$("#tbodyId");//原生写法-document.querySelector("#tbodyId")
+    	tBody.empty();//清空tbody中原有内容
+    	//2.迭代result,将活动信息追加到tbody中   
+    	result.forEach((item)=>{//这里的item为一个变量,代表数组中某一个元素
+    		//debugger
+    		tBody.append(
+    		  `<tr>
+    		     <td>${item.id}</td>
+    		     <td>${item.title}</td>
+    		     <td>${item.category}</td>
+    		     <td>${item.startTime}</td>
+    		     <td>${item.endTime}</td>
+    		     <td>${item.state==1?'有效':'已结束'}</td>
+    		     <td>${item.createdTime}</td>
+    		   </tr>`		
+    		);
+    	});
+    }
+  //jquery中定义的页面加载完整执行方式如下:
+  // $(function(){//假如所有的js代码放到html页面的head标签,建议这样写
+	   findActivitys();
+   //});//页面加载完成以后执行
+  </script>
+</body>
+</html>
+
+
+
+

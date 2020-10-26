@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <h1>The Ajax-01 Page</h1>
+  <fieldset><!-- fieldset可以对页面元素进行分组设计 -->
+     <legend>Ajax 异步请求</legend>
+     <button onclick="doAjaxGet()">Ajax Get Request</button>
+     <span id="ajaxResultId">The Data is Loading ....</span>
+  </fieldset>
+  <script type="text/javascript">
+      //JS中代码调试技巧:3种方法(日志-console.log(),断点-debugger,排除法)
+      function doAjaxGet(){
+    	 // debugger (只有在打开控制台窗口以后才有效)
+    	  //1.创建xhr对象
+    	  var xhr=new XMLHttpRequest();
+    	  //2.设置xhr对象的事件监听函数
+    	  xhr.onreadystatechange=function(){
+    		  console.log(xhr.readyState);
+    		  //readyState==4表示服务端的响应结果在客户端已经接收完了
+    		  //status==200表示服务处理请求的过程中没有出现任何异常.(响应的都是正常数据)
+    	      if(xhr.readyState==4&&xhr.status==200){
+    	    	//获取span对象
+    	        var span=document.getElementById("ajaxResultId");
+    	    	//更新span对象内部的内容
+    	        span.innerHTML=xhr.responseText;
+    	      }
+    	  };
+    	  //3.建立连接(Get请求方式)
+    	  xhr.open("GET","http://localhost/doAjaxGet",true);//true表示异步
+    	  //4.发送请求
+    	  xhr.send(null);
+    	  //console.log("======main======");
+      }
+  </script>
+</body>
+</html>

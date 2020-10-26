@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>The Jquery ajax 01 Page</h1>
+
+<fieldset>
+   <legend>Jquery Ajax function </legend>
+   <button onclick="doGet()">$.get(...)</button>
+   <button onclick="doPost()">$.post(...)</button>
+   <button onclick="doAjax()">$.ajax(...)</button>
+   <button onclick="doLoad()">$(...).load(...)</button>
+   <span id="resultId"></span>
+</fieldset>
+
+<script type="text/javascript" src="/static.min.js"></script>
+<script type="text/javascript">
+     function doGet(){
+    	 //1.请求url
+    	 var url="/jquery/doAjaxGet";
+    	 //2.请求参数
+    	 var params="msg=hello jquery ajax get method";
+    	 //3.发送异步请求
+    	 $.get(url,params,(result)=>{
+    		 $("#resultId").html(result);
+    	 })
+     }
+     function doPost(){
+    	 //1.请求url
+    	 var url="/jquery/doAjaxPost";
+    	 //2.请求参数
+    	 var params="id=10&&title=AAA";
+    	 //3.发送异步请求
+    	 $.post(url,params,(result)=>{
+    		 $("#resultId").html(result);
+    	 })
+     }
+     function doAjax(){
+    	 //1.请求url
+    	 var url="/jquery/doAjaxPost";
+    	 //2.请求参数
+    	 var params="id=10&&title=AAA";
+    	 //3.发送异步请求
+    	 $.ajax({
+    		 type:"POST",//可以省略，默认为get请求
+    		 url:url,
+    		 data:params,//可以省略(无需向服务端传递参数)
+    		 dataType:"text",//可以省略(由ajax函数内部基于返回值进行匹配处理)
+    		 async:true,//可以省略，默认为true，表示异步
+    		 success:function(result){//处理服务端返回的正常信息
+    			 $("#resultId").html(result); 
+    		 },
+    		 error:function(xhr){//处理服务端返回的异常信息
+    			 console.log(xhr.statusText);
+    			 $("#resultId").html(xhr.statusText); 
+    		 }
+    	 })
+     }
+     function doLoad(){
+    	 //1.请求url
+    	 var url="/jquery/doAjaxGet";
+    	 //2.请求参数
+    	 var params="msg=hello jquery ajax get method";
+    	 //3.发送异步请求
+    	 //通过load函数向服务端发送异步请求，将服务端响应的结果异步更新到
+    	 //resultId对应的位置
+    	 $("#resultId").load(url,params);
+     }
+     //......
+</script>
+
+</body>
+</html>

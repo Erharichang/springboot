@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello SpringBoot</title>
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>remark</th>
+        <th>createdTime</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="good: ${list}">
+        <td th:text="${good.id}">Oranges</td>
+        <td th:text="${good.name}">Oranges</td>
+        <td th:text="${good.remark}">Oranges</td>
+<!--        <td th:text="${good.createdTime}">Oranges</td>-->
+        <td th:text="${#dates.format(good.createdTime,'yyyy/MM/dd HH:mm')}">Oranges</td>
+        <td><a href="#" th:href="@{/spring/dele/{id}(id=${good.id})}">delect</a></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

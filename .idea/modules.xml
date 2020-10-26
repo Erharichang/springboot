@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/activity/activity.iml" filepath="$PROJECT_DIR$/activity/activity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ajax/ajax.iml" filepath="$PROJECT_DIR$/ajax/ajax.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mybatis/mybatis.iml" filepath="$PROJECT_DIR$/mybatis/mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-mvc/springboot-mvc.iml" filepath="$PROJECT_DIR$/springboot-mvc/springboot-mvc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-mybatis/springboot-mybatis.iml" filepath="$PROJECT_DIR$/springboot-mybatis/springboot-mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-reud/springboot-reud.iml" filepath="$PROJECT_DIR$/springboot-reud/springboot-reud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-reuds/springboot-reuds.iml" filepath="$PROJECT_DIR$/springboot-reuds/springboot-reuds.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sys/sys.iml" filepath="$PROJECT_DIR$/sys/sys.iml" />
+    </modules>
+  </component>
+</project>

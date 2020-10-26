@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Insert title here</title>
+    <!-- Bootstrap -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet" media="screen">
+    <link th:href="@{/datetimepicker/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen">
+</head>
+<body>
+<div class="container">
+    <h1>The Activity Page</h1>
+    <h2 id="timeId"></h2>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#myModal">创建新活动</button>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">添加活动</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="saveFormId" action="/insert" method="get">
+                        <div class="form-group">
+                            <label for="titleId">title</label>
+                            <input type="text"
+                                   class="form-control" name="title" id="titleId"
+                                   placeholder="please input title">
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryId">Category</label>
+                            <select class="form-control" name="category" id="categoryId">
+                                <option value="training">教育培训</option>
+                                <option value="Playing">企业活动</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="startTimeId">start time</label>
+
+                            <input type="text"
+                                   class="form-control" name="startTime" id="startTimeId"
+                                   placeholder="please input startTime">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="endTimeId">end time</label>
+                            <input type="text"
+                                   class="form-control" name="endTime" id="endTimeId"
+                                   placeholder="please input end time">
+                        </div>
+                        <div class="form-group">
+                            <label for="remarkId">Remark</label>
+                            <textarea
+                                    class="form-control" name="remark" id="remarkId"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="createdUser">createdUser</label>
+                            <input type="text"
+                                   class="form-control" name="createdUser" id="createdUser"
+                                   placeholder="please input createdUser">
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="doSaveObject()">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover">
+
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>category</th>
+            <th>startTime</th>
+            <th>endTime</th>
+            <th>remcark</th>
+            <th>state</th>
+            <th>createdTime</th>
+            <th>createdUser</th>
+        </tr>
+        </thead>
+        <tbody id="tbodyId">
+            <tr>
+                <td colspan="7">数据加载中...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript" src="/jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/datetimepicker/js/bootstrap-datetimepicker.js}" charset="UTF-8"></script>
+<script type="text/javascript" th:src="@{/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}" charset="UTF-8"></script>
+<script type="text/javascript">
+    // $('#datetimepicker').datetimepicker();
+    $('#startTimeId').datetimepicker({
+        format: 'yyyy/mm/dd hh:ii',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    $('#endTimeId').datetimepicker({
+        format: 'yyyy/mm/dd hh:ii',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+
+    function doSaveObject() {
+        // $("form").submit();
+        let url = "/insert";
+
+        var params=$("#saveFormId").serialize();
+        console.log(params);
+
+        $.ajax({
+            type:"post",
+            url: url,
+            data: params,
+
+            success:function(result){
+                // alert(result);
+                //隐藏模态框
+                $('#myModal').modal('hide');
+                //重新执行查询，局部刷新
+                findActivitys();
+
+            }
+        });
+    }
+
+    function findActivitys(){
+        let url="/activity";
+        let params={};
+        //借助jquery中的ajax函数,向服务端发送异步请求获取活动信息
+        $.ajax({
+            url:url,
+            data:params,
+            dataType:"json",
+            success:function(result){
+                doHandleQueryResult(result);
+            }
+        });
+    };
+    //处理服务端返回的活动信息
+    //1、迭代result,并将result内容填充tbody位置
+    function doHandleQueryResult(result) {
+        debugger
+        console.log(result)
+        //1、获取tbdoy对象,并清空内容
+        var tBody = $("#tbodyId");
+        tBody.empty();
+        //2、迭代result
+        result.forEach(item => {
+            tBody.append(
+                `<tr>
+                <td>${item.id}</td>
+                <td>${item.title}</td>
+                <td>${item.category}</td>
+                <td>${item.startTime}</td>
+                <td>${item.endTime}</td>
+                <td>${item.remark}</td>
+                <td>${item.state==1?"有效":"结束"}</td>
+                <td>${item.createdTime}</td>
+                <td>${item.createdUser}</td>
+              </tr>`
+            );
+        });
+
+    }
+    findActivitys();
+</script>
+</body>
+</html>

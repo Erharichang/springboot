@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="springboot-mybatis" />
+        <module name="sys" />
+        <module name="mybatis" />
+        <module name="springboot-reud" />
+        <module name="activity" />
+        <module name="springboot-mvc" />
+        <module name="springboot-reuds" />
+        <module name="untitled" />
+        <module name="ajax" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="activity" target="1.8" />
+      <module name="activity (1)" target="1.8" />
+      <module name="ajax" target="1.8" />
+      <module name="demo" target="1.8" />
+      <module name="mybatis" target="1.8" />
+      <module name="springboot-devtools" target="1.8" />
+      <module name="springboot-mvc" target="1.8" />
+      <module name="springboot-mvc2" target="1.8" />
+      <module name="springboot-mybatis" target="1.8" />
+      <module name="springboot-reud" target="1.8" />
+      <module name="springboot-reuds" target="1.8" />
+      <module name="springboot-springmvc" target="1.8" />
+      <module name="sys" target="1.8" />
+      <module name="untitled" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="activity" options="-parameters" />
+      <module name="ajax" options="-parameters" />
+      <module name="demo" options="-parameters" />
+      <module name="springboot-devtools" options="-parameters" />
+      <module name="springboot-mvc" options="-parameters" />
+      <module name="springboot-mvc2" options="-parameters" />
+      <module name="springboot-mybatis" options="-parameters" />
+      <module name="springboot-reud" options="-parameters" />
+      <module name="springboot-reuds" options="-parameters" />
+      <module name="springboot-springmvc" options="-parameters" />
+      <module name="sys" options="-parameters" />
+      <module name="untitled" options="-parameters" />
+    </option>
+  </component>
+</project>

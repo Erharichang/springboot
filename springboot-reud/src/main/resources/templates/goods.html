@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>hello springboot!!!</h1>
+<a th:href="@{/spring/insertUI}">添加</a>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Remark</th>
+        <th>CreatedTime</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p: ${list}">
+        <td th:text="${p.id}">Oranges</td>
+        <td th:text="${p.name}">Oranges</td>
+        <td th:text="${p.remark}">Oranges</td>
+<!--        <td th:text="${p.createdTime}">Oranges</td>-->
+<!--        <td th:text="${#dates.format(good.createdTime,'yyyy/MM/dd HH:mm')}">Oranges</td>-->
+        <td th:text="${#dates.format(p.createdTime,'yyyy-MM-dd HH:mm')}">Oranges</td>
+        <td><a th:href="@{/spring/deleteUI/{id}(id=${p.id})}">delete</a></td>
+        <td><a th:href="@{/spring/updateUI/{id}(id=${p.id})}">update</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
